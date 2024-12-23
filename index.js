@@ -4,10 +4,12 @@ const app = express();
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const cors = require('cors');
 const mongoose = require('mongoose');
+
 const authrouter = require('./route/auth.js');
 const session = require('express-session');
 const userRouter = require('./route/user.route.js');
 const bodyParser = require('body-parser');
+const orderRouter = require('./route/order.route.js');
 app.use(
   session({
     secret: '1234', // Replace with your secret key
@@ -45,7 +47,7 @@ connectDb();
 app.get('/',(req,res)=>{
   res.send('hello');
 });
-
+app.use('/payment',orderRouter);
 app.use('/auth',authrouter);
 app.use('/user',userRouter);
 passport.use(new GoogleStrategy({
